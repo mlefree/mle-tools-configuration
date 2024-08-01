@@ -91,4 +91,14 @@ describe('Configuration', () => {
 
     });
 
+    it('should update factory back if necessary', async () => {
+        const defaultJson = JSON.stringify({test1: 123});
+        const configuration = new Configuration([], [], defaultJson);
+        configuration.merge(JSON.stringify({test2: {subs: [{id: '21'}]}}));
+        configuration.update(configurationFactory);
+
+        const configurationUpdated = configurationFactory.getConfiguration();
+        expect(configurationUpdated.getJSON()).equal('{"test1":123,"test2":{"subs":[{"id":"21"}]}}');
+    });
+
 });

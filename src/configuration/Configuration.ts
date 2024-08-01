@@ -1,9 +1,11 @@
+import {ConfigurationFactory} from "./ConfigurationFactory";
+
 export class Configuration {
 
-    private allValues: any;
+    protected allValues: any;
 
-    constructor(private defaultValues: { key: string, value: any }[],
-                private allDomains: { domain: string, keys: string[] }[],
+    constructor(protected defaultValues: { key: string, value: any }[],
+                protected allDomains: { domain: string, keys: string[] }[],
                 configThatOverride?: JSON | string) {
         this.build(configThatOverride);
     }
@@ -124,6 +126,16 @@ export class Configuration {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    public update(configurationFactory: ConfigurationFactory) {
+        const keys = Object.keys(this.allValues);
+        configurationFactory.defaultValues = [];
+        for (const key of keys) {
+            const value = JSON.parse(JSON.stringify(this.allValues[key]));
+            configurationFactory.defaultValues.push({key, value});
+        }
+        configurationFactory.allDomains = JSON.parse(JSON.stringify(this.allDomains));
     }
 
     protected build(configThatOverride: JSON | string) {
