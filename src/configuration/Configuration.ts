@@ -84,7 +84,7 @@ export class Configuration {
         return true;
     }
 
-    public merge(configurationAsString: JSON | string) {
+    public merge(configurationAsString:  string | any) {
         if (!configurationAsString) {
             return;
         }
@@ -95,6 +95,13 @@ export class Configuration {
                 confToMerge = JSON.parse(configurationAsString);
             }
         } catch (e) {
+        }
+
+        if (Object.keys(confToMerge).length === 0 ) {
+            this.allValues = {};
+            this.defaultValues = [];
+            this.build();
+            return;
         }
 
         const currentConf = this.getConf();
@@ -138,7 +145,7 @@ export class Configuration {
         configurationFactory.allDomains = JSON.parse(JSON.stringify(this.allDomains));
     }
 
-    protected build(configThatOverride: JSON | string) {
+    protected build(configThatOverride?: JSON | string) {
 
         this.allValues = {};
 

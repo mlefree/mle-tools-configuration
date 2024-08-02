@@ -91,6 +91,15 @@ describe('Configuration', () => {
 
     });
 
+    it('should merge empty conf', async () => {
+        const defaultJson = JSON.stringify({test1: 123});
+        const configuration = new Configuration([], [], defaultJson);
+        expect(configuration.getConf().test1).equal(123);
+
+        configuration.merge({});
+        expect(configuration.getJSON()).equal('{}');
+    });
+
     it('should update factory back if necessary', async () => {
         const defaultJson = JSON.stringify({test1: 123});
         const configuration = new Configuration([], [], defaultJson);
