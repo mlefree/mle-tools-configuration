@@ -63,8 +63,12 @@ export class Configuration {
         return this.allValues[key];
     }
 
-    public getJSON(domain?: string) {
+    public getJSON(domain?: string) : string {
         return JSON.stringify(this.getConf(domain));
+    }
+
+    public getSubJSON(key: string) : string {
+        return JSON.stringify(this.getSubConf(key));
     }
 
     public contains(configurationAsString: Configuration | string) {

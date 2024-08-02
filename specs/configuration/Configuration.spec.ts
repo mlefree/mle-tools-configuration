@@ -85,6 +85,7 @@ describe('Configuration', () => {
         expect(conf.test1).equal(123);
         const subConf = JSON.parse(JSON.stringify(configuration.getSubConf('test1')));
         expect(subConf).equal(123);
+        expect(configuration.getSubJSON('test1')).equal('123');
 
         // new key
         const toMerge = JSON.stringify({test2: {subs: [{id: '21'}]}});
