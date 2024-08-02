@@ -59,6 +59,10 @@ export class Configuration {
         return conf;
     }
 
+    public getSubConf(key: string): any {
+        return this.allValues[key];
+    }
+
     public getJSON(domain?: string) {
         return JSON.stringify(this.getConf(domain));
     }
