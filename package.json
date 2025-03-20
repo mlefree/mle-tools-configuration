@@ -1,6 +1,6 @@
 {
   "name": "mle-tools-configuration",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "author": "mle",
   "description": "configuration tools",
   "keywords": [],
@@ -24,7 +24,9 @@
   },
   "scripts": {
     "_clean": "rm -rf .gen .logs .nyc_output .coverage dist",
-    "build": "rm -rf dist/ && npm version patch --no-git-tag-version && tsc --project tsconfig.json && cp *.md dist/ && cp package.json dist/",
+    "build": "npm run build-dist",
+    "build-version": "VERSION=\"$(npm version patch --no-git-tag-version)\"",
+    "build-dist": "rm -rf dist/ && tsc --project tsconfig.json && cp *.md dist/ && cp package.json dist/",
     "test": "mocha --require ts-node/register 'specs/**/**.spec.ts'",
     "coverage": "nyc npm run test"
   }
