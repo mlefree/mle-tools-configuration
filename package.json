@@ -1,9 +1,15 @@
 {
   "name": "mle-tools-configuration",
-  "version": "1.0.11",
-  "author": "mle",
+  "version": "1.0.12",
+  "author": "mlefree",
   "description": "A configuration management tool for TypeScript/JavaScript applications",
-  "keywords": ["configuration", "typescript", "javascript", "config-management", "domain-based-configuration"],
+  "keywords": [
+    "configuration",
+    "typescript",
+    "javascript",
+    "config-management",
+    "domain-based-configuration"
+  ],
   "private": false,
   "license": "MIT",
   "main": "./index.js",
