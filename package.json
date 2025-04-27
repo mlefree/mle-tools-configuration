@@ -1,9 +1,9 @@
 {
   "name": "mle-tools-configuration",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "author": "mle",
-  "description": "configuration tools",
-  "keywords": [],
+  "description": "A configuration management tool for TypeScript/JavaScript applications",
+  "keywords": ["configuration", "typescript", "javascript", "config-management", "domain-based-configuration"],
   "private": false,
   "license": "MIT",
   "main": "./index.js",
@@ -24,8 +24,8 @@
   },
   "scripts": {
     "_clean": "rm -rf .gen .logs .nyc_output .coverage dist",
+    "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\"",
     "build": "npm run build-dist",
-    "build-version": "VERSION=\"$(npm version patch --no-git-tag-version)\"",
     "build-dist": "rm -rf dist/ && tsc --project tsconfig.json && cp *.md dist/ && cp package.json dist/",
     "test": "mocha --require ts-node/register 'specs/**/**.spec.ts'",
     "coverage": "nyc npm run test"

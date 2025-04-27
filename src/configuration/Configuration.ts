@@ -1,12 +1,12 @@
 import {ConfigurationFactory} from "./ConfigurationFactory";
 
-export class Configuration {
+export class Configuration<T> {
 
     protected allValues: any;
 
     constructor(protected defaultValues: { key: string, value: any }[],
                 protected allDomains: { domain: string, keys: string[] }[],
-                configThatOverride?: JSON | string) {
+                configThatOverride?: T | string) {
         this.build(configThatOverride);
     }
 
@@ -40,7 +40,7 @@ export class Configuration {
         }
     };
 
-    public getConf(domain?: string): any {
+    public getConf(domain?: string): T {
         let conf = this.allValues;
         if (!domain) {
             return conf;
@@ -71,13 +71,13 @@ export class Configuration {
         return JSON.stringify(this.getSubConf(key));
     }
 
-    public contains(configurationAsString: Configuration | string) {
+    public contains(configurationAsString: string | any) {
         let confToCompare = configurationAsString;
         try {
             if (typeof configurationAsString === 'string') {
                 confToCompare = JSON.parse(configurationAsString);
             }
-        } catch (e) {
+        } catch (_) {
         }
 
         const currentConf = this.getConf();
@@ -153,7 +153,7 @@ export class Configuration {
         configurationFactory.allDomains = JSON.parse(JSON.stringify(this.allDomains));
     }
 
-    protected build(configThatOverride?: JSON | string) {
+    protected build(configThatOverride?: T | string) {
 
         this.allValues = {};
 

@@ -15,6 +15,21 @@
 - 🛠 JSON-based configuration storage
 - 📦 Easy integration with existing projects
 
+## 📚 Documentation
+
+### Memory Bank
+
+This project uses a Memory Bank for comprehensive documentation and context retention. The Memory Bank is located in the `.memory-bank` directory and contains the following files:
+
+- `projectbrief.md`: Overview of the project, core requirements, and goals
+- `productContext.md`: Why the project exists, problems it solves, and how it works
+- `systemPatterns.md`: System architecture, key technical decisions, and design patterns
+- `techContext.md`: Technologies used, development setup, and technical constraints
+- `activeContext.md`: Current work focus, recent changes, and next steps
+- `progress.md`: What works, what's left to build, and known issues
+
+=> !! These files should always be considered as a context and keep up-to-date !!
+
 ## 📦 Installation
 
 ```bash
@@ -49,9 +64,11 @@ config.merge({
 
 ### Configuration Class
 
-- `getJSON()`: Get the entire configuration as a JSON string
-- `getConf()`: Get the configuration object
+- `getJSON(domain?)`: Get the entire configuration as a JSON string
+- `getSubJSON(key)`: Get a specific configuration section as a JSON string
+- `getConf(domain?)`: Get the configuration object
 - `getSubConf(key)`: Get a specific configuration section
+- `contains(configurationAsString)`: Check if configuration contains the specified configuration
 - `merge(conf)`: Merge new configuration
 - `set(key, value)`: Set a specific configuration value
 - `add(key, value)`: Add to existing configuration
@@ -68,9 +85,9 @@ config.merge({
 npm test
 ```
 
-## 📝 Release Notes
+## 📝 Changelog
 
-See [Release notes](./RELEASE.md) for the changelog.
+See [CHANGELOG.md](./CHANGELOG.md) for a detailed list of changes.
 
 ## 📄 License
 
