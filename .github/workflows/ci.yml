@@ -4,12 +4,18 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -40,6 +46,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+          # Set remote URL with token for authentication
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/mle-tools-configuration.git
+
           # Check if tag already exists
           if git ls-remote --tags origin | grep -q "refs/tags/v$VERSION"; then
             echo "Tag v$VERSION already exists. Skipping tag creation."
@@ -58,6 +67,8 @@ jobs:
             git tag -a "v$VERSION" -m "Release v$VERSION"
             git push --tags
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: npm publish
         working-directory: ./dist
