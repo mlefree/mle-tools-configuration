@@ -59,7 +59,7 @@ export class Configuration<T> {
         return conf;
     }
 
-    public getSubConf(key: string): any {
+    public getSubConf(key: string): T {
         return this.allValues[key];
     }
 
