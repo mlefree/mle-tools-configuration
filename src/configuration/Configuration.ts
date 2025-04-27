@@ -6,7 +6,7 @@ export class Configuration<T> {
 
     constructor(protected defaultValues: { key: string, value: any }[],
                 protected allDomains: { domain: string, keys: string[] }[],
-                configThatOverride?: T | string) {
+                configThatOverride?: string | T) {
         this.build(configThatOverride);
     }
 

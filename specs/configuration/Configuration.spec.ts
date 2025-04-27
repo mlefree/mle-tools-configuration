@@ -31,7 +31,7 @@ describe('Configuration', () => {
             [{key: 'test', value: 'testValue'}],
             [{domain: 'domain1', keys: ['test']}]);
 
-        const configuration = configurationFactory.getConfiguration({test: 'overridden'} as any);
+        const configuration = configurationFactory.getConfiguration({test: 'overridden'});
         expect(configuration.getJSON()).equal('{"test":"overridden"}');
     });
 
@@ -96,7 +96,7 @@ describe('Configuration', () => {
 
     it('should merge empty conf', async () => {
         const defaultJson = JSON.stringify({test1: 123});
-        const configuration = new Configuration([], [], defaultJson);
+        const configuration = new Configuration<{test1:number}>([], [], defaultJson);
         expect(configuration.getConf().test1).equal(123);
 
         configuration.merge({});
@@ -105,7 +105,7 @@ describe('Configuration', () => {
 
     it('should update factory back if necessary', async () => {
         const defaultJson = JSON.stringify({test1: 123});
-        const configuration = new Configuration([], [], defaultJson);
+        const configuration = new Configuration<{test1:number}>([], [], defaultJson);
         configuration.merge(JSON.stringify({test2: {subs: [{id: '21'}]}}));
         configuration.update(configurationFactory);
 

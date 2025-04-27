@@ -15,8 +15,8 @@ export class ConfigurationFactory {
         this.allDomains = allDomains;
     }
 
-    getConfiguration(configThatOverride?: JSON | string): Configuration {
-        return new Configuration(this.defaultValues, this.allDomains, configThatOverride);
+    getConfiguration<T>(configThatOverride?: string | T): Configuration<T> {
+        return new Configuration<T>(this.defaultValues, this.allDomains, configThatOverride);
     }
 }
 
