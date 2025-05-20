@@ -6,7 +6,9 @@
 - Ensuring documentation consistency across the project
 
 ## Recent Changes
-- **v1.0.11 (2025-04-27)**: Updated documentation for consistency
+- **v1.0.13 (2023-05-20)**: Updated memory bank and changelog
+- **v1.0.12 (2023-05-15)**: Minor improvements and bug fixes
+- **v1.0.11 (2023-04-27)**: Updated documentation for consistency
 - Added Memory Bank structure for better project documentation
 - Improved project organization and documentation
 
