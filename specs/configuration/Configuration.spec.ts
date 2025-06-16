@@ -2,15 +2,11 @@ import {expect} from 'chai';
 import {Configuration, configurationFactory} from '../../src';
 
 describe('Configuration', () => {
+    before(() => {});
 
-    before(() => {
-    });
+    beforeEach(() => {});
 
-    beforeEach(() => {
-    });
-
-    afterEach(() => {
-    });
+    afterEach(() => {});
 
     it('should create one default configuration', async () => {
         const configuration = configurationFactory.getConfiguration();
@@ -20,7 +16,8 @@ describe('Configuration', () => {
     it('should create one setUpped configuration', async () => {
         configurationFactory.setUp(
             [{key: 'test', value: 'testValue'}],
-            [{domain: 'domain1', keys: ['test']}]);
+            [{domain: 'domain1', keys: ['test']}]
+        );
 
         const configuration = configurationFactory.getConfiguration();
         expect(configuration.getJSON()).equal('{"test":"testValue"}');
@@ -29,25 +26,32 @@ describe('Configuration', () => {
     it('should override configuration', async () => {
         configurationFactory.setUp(
             [{key: 'test', value: 'testValue'}],
-            [{domain: 'domain1', keys: ['test']}]);
+            [{domain: 'domain1', keys: ['test']}]
+        );
 
         const configuration = configurationFactory.getConfiguration({test: 'overridden'});
         expect(configuration.getJSON()).equal('{"test":"overridden"}');
     });
 
     it('should create a simple configuration and merge/set/add it iteratively', async () => {
-        const configuration = new Configuration([
+        const configuration = new Configuration(
+            [
                 {
-                    key: 'test1', value: {
+                    key: 'test1',
+                    value: {
                         subs: [{id: '1'}, {id: '2'}, {id: '3'}],
-                    }
+                    },
                 },
                 {
-                    key: 'test2', value: {sub1: [1, 2, 3]},
-                }
+                    key: 'test2',
+                    value: {sub1: [1, 2, 3]},
+                },
             ],
-            []);
-        expect(configuration.getJSON()).equal('{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3]}}');
+            []
+        );
+        expect(configuration.getJSON()).equal(
+            '{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3]}}'
+        );
 
         const conf = JSON.parse(JSON.stringify(configuration.getConf()));
         expect(conf.test2.sub1[2]).equal(3);
@@ -63,17 +67,24 @@ describe('Configuration', () => {
         };
 
         configuration.merge(conf);
-        expect(configuration.getJSON()).equal('{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"subs":[{"id":"31"}]}}');
+        expect(configuration.getJSON()).equal(
+            '{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"subs":[{"id":"31"}]}}'
+        );
 
         configuration.set('test3', {other: {subs: [4]}});
-        expect(configuration.getJSON()).equal('{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4]}}}');
+        expect(configuration.getJSON()).equal(
+            '{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4]}}}'
+        );
 
         configuration.add('test3', {other: {disable: true}});
-        expect(configuration.getJSON()).equal('{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4],"disable":true}}}');
+        expect(configuration.getJSON()).equal(
+            '{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4],"disable":true}}}'
+        );
 
         configuration.add('test3', {other: {disable: false, sub2: [1, 2]}});
-        expect(configuration.getJSON()).equal('{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4],"disable":false,"sub2":[1,2]}}}');
-
+        expect(configuration.getJSON()).equal(
+            '{"test1":{"subs":[{"id":"1"},{"id":"2"},{"id":"3"}]},"test2":{"sub1":[1,2,3],"sub2":[{"id":"21"}]},"test3":{"other":{"subs":[4],"disable":false,"sub2":[1,2]}}}'
+        );
     });
 
     it('should merge/set/add configuration with stringified json', async () => {
@@ -91,12 +102,11 @@ describe('Configuration', () => {
         const toMerge = JSON.stringify({test2: {subs: [{id: '21'}]}});
         configuration.merge(toMerge);
         expect(configuration.getJSON()).equal('{"test1":123,"test2":{"subs":[{"id":"21"}]}}');
-
     });
 
     it('should merge empty conf', async () => {
         const defaultJson = JSON.stringify({test1: 123});
-        const configuration = new Configuration<{test1:number}>([], [], defaultJson);
+        const configuration = new Configuration<{test1: number}>([], [], defaultJson);
         expect(configuration.getConf().test1).equal(123);
 
         configuration.merge({});
@@ -105,12 +115,13 @@ describe('Configuration', () => {
 
     it('should update factory back if necessary', async () => {
         const defaultJson = JSON.stringify({test1: 123});
-        const configuration = new Configuration<{test1:number}>([], [], defaultJson);
+        const configuration = new Configuration<{test1: number}>([], [], defaultJson);
         configuration.merge(JSON.stringify({test2: {subs: [{id: '21'}]}}));
         configuration.update(configurationFactory);
 
         const configurationUpdated = configurationFactory.getConfiguration();
-        expect(configurationUpdated.getJSON()).equal('{"test1":123,"test2":{"subs":[{"id":"21"}]}}');
+        expect(configurationUpdated.getJSON()).equal(
+            '{"test1":123,"test2":{"subs":[{"id":"21"}]}}'
+        );
     });
-
 });

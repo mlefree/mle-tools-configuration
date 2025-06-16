@@ -1,18 +1,23 @@
-import {ConfigurationFactory} from "./ConfigurationFactory";
+import {ConfigurationFactory} from './ConfigurationFactory';
 
 export class Configuration<T> {
-
     protected allValues: any;
 
-    constructor(protected defaultValues: { key: string, value: any }[],
-                protected allDomains: { domain: string, keys: string[] }[],
-                configThatOverride?: string | T) {
+    constructor(
+        protected defaultValues: {key: string; value: any}[],
+        protected allDomains: {domain: string; keys: string[]}[],
+        configThatOverride?: string | T
+    ) {
         this.build(configThatOverride);
     }
 
-    protected static Walk(container: any, parent: any, keys: string[], path: { name: string, type: string }[]) {
+    protected static Walk(
+        container: any,
+        parent: any,
+        keys: string[],
+        path: {name: string; type: string}[]
+    ) {
         for (const key of keys) {
-
             let subs = [];
             if (typeof parent[key] === 'object' && !Array.isArray(parent[key])) {
                 subs = Object.keys(parent[key]);
@@ -25,7 +30,7 @@ export class Configuration<T> {
             } else {
                 let containerEl = container;
                 for (const pathEl of path) {
-                    if (!containerEl.hasOwnProperty(pathEl.name)) {
+                    if (!Object.prototype.hasOwnProperty.call(containerEl, pathEl.name)) {
                         if (pathEl.type === 'object') {
                             containerEl[pathEl.name] = {};
                         } else {
@@ -38,7 +43,7 @@ export class Configuration<T> {
                 containerEl[key] = parent[key];
             }
         }
-    };
+    }
 
     public getConf(domain?: string): T {
         let conf = this.allValues;
@@ -46,7 +51,7 @@ export class Configuration<T> {
             return conf;
         }
 
-        const found = this.allDomains.filter(d => d.domain === domain);
+        const found = this.allDomains.filter((d) => d.domain === domain);
         if (found.length !== 1) {
             return conf;
         }
@@ -63,11 +68,11 @@ export class Configuration<T> {
         return this.allValues[key];
     }
 
-    public getJSON(domain?: string) : string {
+    public getJSON(domain?: string): string {
         return JSON.stringify(this.getConf(domain));
     }
 
-    public getSubJSON(key: string) : string {
+    public getSubJSON(key: string): string {
         return JSON.stringify(this.getSubConf(key));
     }
 
@@ -78,11 +83,15 @@ export class Configuration<T> {
                 confToCompare = JSON.parse(configurationAsString);
             }
         } catch (_) {
+            // Ignore parsing errors, use the original value
         }
 
         const currentConf = this.getConf();
         for (const p in currentConf) {
-            if (currentConf.hasOwnProperty(p) === confToCompare.hasOwnProperty(p)) {
+            if (
+                Object.prototype.hasOwnProperty.call(currentConf, p) ===
+                Object.prototype.hasOwnProperty.call(confToCompare, p)
+            ) {
                 if (JSON.stringify(currentConf[p]) !== JSON.stringify(confToCompare[p])) {
                     return false;
                 }
@@ -92,7 +101,7 @@ export class Configuration<T> {
         return true;
     }
 
-    public merge(configurationAsString:  string | any) {
+    public merge(configurationAsString: string | any) {
         if (!configurationAsString) {
             return;
         }
@@ -103,9 +112,10 @@ export class Configuration<T> {
                 confToMerge = JSON.parse(configurationAsString);
             }
         } catch (e) {
+            // Ignore parsing errors, use the original value
         }
 
-        if (Object.keys(confToMerge).length === 0 ) {
+        if (Object.keys(confToMerge).length === 0) {
             this.allValues = {};
             this.defaultValues = [];
             this.build();
@@ -114,7 +124,7 @@ export class Configuration<T> {
 
         const currentConf = this.getConf();
         for (const key in confToMerge) {
-            if (confToMerge.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(confToMerge, key)) {
                 if (currentConf[key]) {
                     this.add(key, confToMerge[key]);
                 } else {
@@ -154,7 +164,6 @@ export class Configuration<T> {
     }
 
     protected build(configThatOverride?: T | string) {
-
         this.allValues = {};
 
         try {
@@ -171,11 +180,10 @@ export class Configuration<T> {
 
         if (configThatOverride) {
             for (const key of Object.keys(configThatOverride)) {
-                if (configThatOverride.hasOwnProperty(key)) {
+                if (Object.prototype.hasOwnProperty.call(configThatOverride, key)) {
                     this.allValues[key] = configThatOverride[key];
                 }
             }
         }
-
     }
 }

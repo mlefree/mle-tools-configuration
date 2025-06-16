@@ -6,6 +6,8 @@
 - Ensuring documentation consistency across the project
 
 ## Recent Changes
+- **v1.0.15 (2023-06-01)**: Updated dependencies to latest versions and improved documentation
+- **v1.0.14 (2023-05-25)**: Updated project type from "standalone" to "package" and version information
 - **v1.0.13 (2023-05-20)**: Updated memory bank and changelog
 - **v1.0.12 (2023-05-15)**: Minor improvements and bug fixes
 - **v1.0.11 (2023-04-27)**: Updated documentation for consistency

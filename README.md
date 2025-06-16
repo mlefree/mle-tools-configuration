@@ -14,6 +14,7 @@
 - 🎯 Domain-based configuration organization
 - 🛠 JSON-based configuration storage
 - 📦 Easy integration with existing projects
+- 🔍 Comprehensive documentation with Memory Bank
 
 ## 📦 Installation
 
