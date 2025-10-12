@@ -7,22 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.15] - 2025-06-16
 
 ### Changed
 - Updated project type from "standalone" to "package"
 - Updated version information in bpInfo.ts
 
-## [1.0.13] - 2023-05-20
+## [1.0.13] - 2025-05-20
 
 ### Changed
 - Updated memory bank and changelog
 
-## [1.0.12] - 2023-05-15
+## [1.0.12] - 2025-04-27
 
 ### Changed
 - Minor improvements and bug fixes
 
-## [1.0.11] - 2023-04-27
+## [1.0.11] - 2025-04-27
 
 ### Changed
 - Updated documentation for consistency
